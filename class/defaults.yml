@@ -1,0 +1,4 @@
+parameters:
+  vertical_pod_autoscaler:
+    =_metadata: {}
+    namespace: syn-vertical-pod-autoscaler

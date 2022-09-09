@@ -1,0 +1,5 @@
+= vertical-pod-autoscaler
+
+vertical-pod-autoscaler is a Commodore component to manage vertical-pod-autoscaler.
+
+See the xref:references/parameters.adoc[parameters] reference for further details.
