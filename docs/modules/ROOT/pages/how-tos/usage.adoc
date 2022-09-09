@@ -1,0 +1,133 @@
+= Usage Example
+
+To use the VPA to only determine the recommended CPU and memory values, create a VPA CR for a specific workload object with `updateMode` set to `off`.
+Example for Rook-Ceph deployment:
+
+[source,yaml]
+----
+cat <<EOF | kubectl apply -f
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: rook-ceph-mds-fspool-a
+  namespace: syn-rook-ceph-cluster
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       Deployment
+    name:       rook-ceph-mds-fspool-a
+  updatePolicy:
+    updateMode: "Off"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: rook-ceph-mds-fspool-b
+  namespace: syn-rook-ceph-cluster
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       Deployment
+    name:       rook-ceph-mds-fspool-b
+  updatePolicy:
+    updateMode: "Off"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: rook-ceph-mgr-a
+  namespace: syn-rook-ceph-cluster
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       Deployment
+    name:       rook-ceph-mgr-a
+  updatePolicy:
+    updateMode: "Off"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: rook-ceph-mon-a
+  namespace: syn-rook-ceph-cluster
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       Deployment
+    name:       rook-ceph-mon-a
+  updatePolicy:
+    updateMode: "Off"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: rook-ceph-mon-b
+  namespace: syn-rook-ceph-cluster
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       Deployment
+    name:       rook-ceph-mon-b
+  updatePolicy:
+    updateMode: "Off"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: rook-ceph-mon-e
+  namespace: syn-rook-ceph-cluster
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       Deployment
+    name:       rook-ceph-mon-e
+  updatePolicy:
+    updateMode: "Off"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: rook-ceph-osd-0
+  namespace: syn-rook-ceph-cluster
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       Deployment
+    name:       rook-ceph-osd-0
+  updatePolicy:
+    updateMode: "Off"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: rook-ceph-osd-1
+  namespace: syn-rook-ceph-cluster
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       Deployment
+    name:       rook-ceph-osd-1
+  updatePolicy:
+    updateMode: "Off"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: rook-ceph-osd-2
+  namespace: syn-rook-ceph-cluster
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       Deployment
+    name:       rook-ceph-osd-2
+  updatePolicy:
+    updateMode: "Off"
+EOF
+----
+
+Check recommondations:
+[source,shell]
+----
+kubectl -n syn-rook-ceph-cluster get vpa -ocustom-columns="NAME:.metadata.name,CPU_MIN:.status.recommendation.containerRecommendations[].lowerBound.cpu,CPU_MAX:.status.recommendation.containerRecommendations[].upperBound.cpu,CPU_TARGET:.status.recommendation.containerRecommendations[].target.cpu,MEM_MIN:.status.recommendation.containerRecommendations[].lowerBound.memory,MEM_MAX:.status.recommendation.containerRecommendations[].upperBound.memory,MEM_TARGET:.status.recommendation.containerRecommendations[].target.memory"
+----
