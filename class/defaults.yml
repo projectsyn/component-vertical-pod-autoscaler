@@ -23,22 +23,22 @@ parameters:
     resources:
       vpa_admission_controller:
         requests:
-          cpu: 50m
-          memory: 200Mi
+          cpu: 25m
+          memory: 250Mi
         limits:
           cpu: 200m
-          memory: 500Mi
+          memory: 1500Mi
       vpa_recommender:
         requests:
-          cpu: 50m
-          memory: 500Mi
+          cpu: 25m
+          memory: 250Mi
         limits:
-          cpu: 200m
-          memory: 1000Mi
+          cpu: 300m
+          memory: 2000Mi
       vpa_updater:
-        limits:
-          cpu: 200m
-          memory: 1000Mi
         requests:
-          cpu: 50m
-          memory: 500Mi
+          cpu: 25m
+          memory: 250Mi
+        limits:
+          cpu: 300m
+          memory: 2000Mi

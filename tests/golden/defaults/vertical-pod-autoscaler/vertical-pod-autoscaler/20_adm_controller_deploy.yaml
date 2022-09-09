@@ -44,10 +44,10 @@ spec:
           resources:
             limits:
               cpu: 200m
-              memory: 500Mi
+              memory: 1500Mi
             requests:
-              cpu: 50m
-              memory: 200Mi
+              cpu: 25m
+              memory: 250Mi
           stdin: false
           tty: false
           volumeMounts:
