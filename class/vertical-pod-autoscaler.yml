@@ -1,5 +1,10 @@
 parameters:
   kapitan:
+    dependencies:
+      - type: https
+        source: https://raw.githubusercontent.com/kubernetes/autoscaler/master/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
+        output_path: ${_base_directory}/dependencies/vertical-pod-autoscaler/vpa-v1-crd-gen.yaml
+
     compile:
       - input_paths:
           - ${_base_directory}/component/app.jsonnet
@@ -9,3 +14,7 @@ parameters:
           - ${_base_directory}/component/main.jsonnet
         input_type: jsonnet
         output_path: vertical-pod-autoscaler/
+      - input_paths:
+          - ${_base_directory}/dependencies/vertical-pod-autoscaler/vpa-v1-crd-gen.yaml
+        input_type: copy
+        output_path: vertical-pod-autoscaler/10_crds/

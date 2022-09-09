@@ -12,3 +12,5 @@ ignore: |
   manifests/
   vendor/
   compiled/
+  .cache/
+  tests/golden/defaults/vertical-pod-autoscaler/vertical-pod-autoscaler/10_crds/*
