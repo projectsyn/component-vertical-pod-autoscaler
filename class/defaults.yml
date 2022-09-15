@@ -44,3 +44,5 @@ parameters:
           memory: 2000Mi
 
     autoscaler: {}
+
+    recommend_only: true

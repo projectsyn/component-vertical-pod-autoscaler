@@ -47,3 +47,11 @@ spec:
       serviceAccountName: vpa-recommender
       terminationGracePeriodSeconds: 30
       volumes: []
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations: {}
+  labels:
+    name: vpa-recommender
+  name: vpa-recommender

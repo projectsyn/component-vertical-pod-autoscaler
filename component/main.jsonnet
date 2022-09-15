@@ -57,33 +57,10 @@ local rbac = import 'rbac.jsonnet';
 {
   '00_namespace': namespace,
 
-  '20_adm_controller_deploy': adm_controller.deployment,
-  '21_adm_controller_svc': adm_controller.service,
-  '22_adm_controller_sa': adm_controller.service_account,
-  '23_adm_controller_cr': adm_controller.cluster_role,
-  '24_adm_controller_crb': adm_controller.cluster_role_binding,
-  '25_cert_manager_issuer': adm_controller.cert_manager_issuer,
-  '26_cert_manager_cert': adm_controller.cert_manager_cert,
+  '20_recommender': recommender.deployment,
+  [if !params.recommend_only then '30_adm_controller']: adm_controller.deployment,
+  [if !params.recommend_only then '40_updater']: updater.deployment,
 
-  '30_recommender_deploy': recommender.deployment,
-  '32_recommender_sa': recommender.service_account,
-
-  '40_updater_deploy': updater.deployment,
-  '42_updater_sa': updater.service_account,
-
-  '53_cr_metrics_reader': rbac.cr_metrics_reader,
-  '53_cr_actor': rbac.cr_actor,
-  '53_cr_checkpoint_actor': rbac.cr_checkpoint_actor,
-  '53_cr_evictioner': rbac.cr_evictioner,
-  '53_cr_target_reader': rbac.cr_target_reader,
-  '53_cr_status_reader': rbac.cr_status_reader,
-
-  '54_crb_metrics_reader': rbac.crb_metrics_reader,
-  '54_crb_actor': rbac.crb_actor,
-  '54_crb_checkpoint_actor': rbac.crb_checkpoint_actor,
-  '54_crb_target_reader': rbac.crb_target_reader,
-  '54_crb_evictioner': rbac.crb_evictioner,
-  '54_crb_status_reader': rbac.crb_status_reader,
-
-  '60_vpa_resources': vpa_resources(),
+  '50_cluster_roles': rbac.cluster_roles,
+  '50_cluster_role_bindings': rbac.cluster_role_bindings,
 }

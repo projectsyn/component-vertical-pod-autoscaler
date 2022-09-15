@@ -29,6 +29,8 @@ local deployment = kube.Deployment(app_name) {
 local service_account = kube.ServiceAccount(app_name);
 
 {
-  deployment: deployment,
-  service_account: service_account,
+  deployment: [
+    deployment,
+    service_account,
+  ],
 }

@@ -45,3 +45,13 @@ autoscaler:
 <4> Add arbitrary https://cloud.google.com/kubernetes-engine/docs/concepts/verticalpodautoscaler[autoscaler specs].
 
 For more information about `mode`, see https://github.com/kubernetes/design-proposals-archive/blob/main/autoscaling/vertical-pod-autoscaler.md#update-policy[UpdateMode].
+
+== `recommend_only`
+
+[horizontal]
+type:: boolean
+default:: true
+
+Wether to deploy only the recommender or not.
+
+Disabling will also deploy the admission-controller and updater, so the component is able to actively update resources with its recommendations.
