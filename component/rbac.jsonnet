@@ -176,7 +176,7 @@ local crb_actor = kube.ClusterRoleBinding('system:vpa-actor') {
       namespace: params.namespace,
     },
   ] + (
-    if params.recommend_only then [] else [
+    if !params.allow_autoscaling then [] else [
       {
         kind: 'ServiceAccount',
         name: 'vpa-updater',
@@ -214,7 +214,7 @@ local crb_target_reader = kube.ClusterRoleBinding('system:vpa-target-reader') {
       namespace: params.namespace,
     },
   ] + (
-    if params.recommend_only then [] else [
+    if !params.allow_autoscaling then [] else [
       {
         kind: 'ServiceAccount',
         name: 'vpa-updater',
@@ -282,7 +282,7 @@ local crb_admission_controller = kube.ClusterRoleBinding('system:vpa-admission-c
     cr_checkpoint_actor,
     cr_target_reader,
   ] + (
-    if params.recommend_only then [] else [
+    if !params.allow_autoscaling then [] else [
       cr_evictioner,
       cr_status_reader,
       cr_admission_controller,
@@ -295,7 +295,7 @@ local crb_admission_controller = kube.ClusterRoleBinding('system:vpa-admission-c
     crb_checkpoint_actor,
     crb_target_reader,
   ] + (
-    if params.recommend_only then [] else [
+    if !params.allow_autoscaling then [] else [
       crb_evictioner,
       crb_status_reader,
       crb_admission_controller,

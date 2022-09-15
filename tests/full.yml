@@ -1,3 +1,23 @@
 # Overwrite parameters here
 
-# parameters: {...}
+parameters:
+  vertical_pod_autoscaler:
+    allow_autoscaling: true
+    autoscaler:
+      my-namespace/frontend: {}
+      my-namespace/backend:
+        kind: StatefulSet
+      my-other-namespace/database:
+        kind: StatefulSet
+        mode: Auto
+        spec:
+          resourcePolicy:
+            containerPolicies:
+              - containerName: '*'
+                minAllowed:
+                  cpu: 100m
+                  memory: 50Mi
+                maxAllowed:
+                  cpu: 1
+                  memory: 500Mi
+                controlledResources: ["cpu", "memory"]

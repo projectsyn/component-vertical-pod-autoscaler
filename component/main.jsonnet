@@ -58,9 +58,11 @@ local rbac = import 'rbac.jsonnet';
   '00_namespace': namespace,
 
   '20_recommender': recommender.deployment,
-  [if !params.recommend_only then '30_adm_controller']: adm_controller.deployment,
-  [if !params.recommend_only then '40_updater']: updater.deployment,
+  [if params.allow_autoscaling then '30_adm_controller']: adm_controller.deployment,
+  [if params.allow_autoscaling then '40_updater']: updater.deployment,
 
   '50_cluster_roles': rbac.cluster_roles,
   '50_cluster_role_bindings': rbac.cluster_role_bindings,
+
+  [if std.length(params.autoscaler) > 0 then '60_vpa_resources']: vpa_resources(),
 }
