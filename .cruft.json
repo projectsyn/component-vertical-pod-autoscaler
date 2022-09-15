@@ -7,7 +7,7 @@
       "name": "vertical-pod-autoscaler",
       "slug": "vertical-pod-autoscaler",
       "parameter_key": "vertical_pod_autoscaler",
-      "test_cases": "defaults",
+      "test_cases": "defaults full",
       "add_lib": "n",
       "add_pp": "n",
       "add_golden": "y",

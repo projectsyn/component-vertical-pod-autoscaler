@@ -18,6 +18,16 @@ default:: https://github.com/projectsyn/component-vertical-pod-autoscaler/blob/m
 
 A dictionary of images used by this component.
 
+== `allow_autoscaling`
+
+[horizontal]
+type:: boolean
+default:: false
+
+Wether to enable ability to actively update resources.
+
+Enabling will also deploy the admission-controller and updater, so the component is able to actively update resources with its recommendations.
+
 == `autoscaler`
 
 [horizontal]

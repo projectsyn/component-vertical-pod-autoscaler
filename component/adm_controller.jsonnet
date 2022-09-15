@@ -51,51 +51,6 @@ local service = kube.Service(app_name) {
 
 local service_account = kube.ServiceAccount(app_name);
 
-local cluster_role = kube.ClusterRole('system:%(name)s' % app_name) {
-  rules: [
-    {
-      apiGroups: [ '' ],
-      resources: [ 'pods', 'configmaps', 'nodes', 'limitranges' ],
-      verbs: [ 'get', 'list', 'watch' ],
-    },
-    {
-      apiGroups: [ 'admissionregistration.k8s.io' ],
-      resources: [ 'mutatingwebhookconfigurations' ],
-      verbs: [ 'get', 'list', 'create', 'delete' ],
-    },
-    {
-      apiGroups: [ 'poc.autoscaling.k8s.io' ],
-      resources: [ 'verticalpodautoscalers' ],
-      verbs: [ 'get', 'list', 'watch' ],
-    },
-    {
-      apiGroups: [ 'autoscaling.k8s.io' ],
-      resources: [ 'verticalpodautoscalers' ],
-      verbs: [ 'get', 'list', 'watch' ],
-    },
-    {
-      apiGroups: [ 'coordination.k8s.io' ],
-      resources: [ 'leases' ],
-      verbs: [ 'get', 'list', 'watch', 'create', 'update' ],
-    },
-  ],
-};
-
-local cluster_role_binding = kube.ClusterRoleBinding('system:%(name)s' % app_name) {
-  roleRef: {
-    apiGroup: 'rbac.authorization.k8s.io',
-    kind: 'ClusterRole',
-    name: 'system:%(name)s' % app_name,
-  },
-  subjects: [
-    {
-      kind: 'ServiceAccount',
-      name: app_name,
-      namespace: params.namespace,
-    },
-  ],
-};
-
 local cert_manager_issuer = {
   apiVersion: 'cert-manager.io/v1',
   kind: 'Issuer',
@@ -128,11 +83,11 @@ local cert_manager_cert = {
 };
 
 {
-  deployment: deployment,
-  service: service,
-  service_account: service_account,
-  cluster_role: cluster_role,
-  cluster_role_binding: cluster_role_binding,
-  cert_manager_issuer: cert_manager_issuer,
-  cert_manager_cert: cert_manager_cert,
+  deployment: [
+    deployment,
+    service,
+    service_account,
+    cert_manager_issuer,
+    cert_manager_cert,
+  ],
 }

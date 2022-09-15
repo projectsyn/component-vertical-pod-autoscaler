@@ -43,4 +43,6 @@ parameters:
           cpu: 300m
           memory: 2000Mi
 
+    allow_autoscaling: false
+
     autoscaler: {}

@@ -3,15 +3,15 @@ kind: Deployment
 metadata:
   annotations: {}
   labels:
-    name: vpa-updater
-  name: vpa-updater
+    name: vpa-recommender
+  name: vpa-recommender
 spec:
   minReadySeconds: 30
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      name: vpa-updater
+      name: vpa-recommender
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -21,20 +21,16 @@ spec:
     metadata:
       annotations: {}
       labels:
-        name: vpa-updater
+        name: vpa-recommender
     spec:
       containers:
         - args: []
-          env:
-            - name: NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
-          image: k8s.gcr.io/autoscaling/vpa-updater:0.11.0
+          env: []
+          image: k8s.gcr.io/autoscaling/vpa-recommender:0.11.0
           imagePullPolicy: IfNotPresent
-          name: vpa-updater
+          name: vpa-recommender
           ports:
-            - containerPort: 8943
+            - containerPort: 8942
               name: prometheus
           resources:
             limits:
@@ -48,6 +44,14 @@ spec:
           volumeMounts: []
       imagePullSecrets: []
       initContainers: []
-      serviceAccountName: vpa-updater
+      serviceAccountName: vpa-recommender
       terminationGracePeriodSeconds: 30
       volumes: []
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations: {}
+  labels:
+    name: vpa-recommender
+  name: vpa-recommender
