@@ -2,3 +2,43 @@ parameters:
   vertical_pod_autoscaler:
     =_metadata: {}
     namespace: syn-vertical-pod-autoscaler
+
+    images:
+      vpa_admission_controller:
+        registry: k8s.gcr.io
+        repository: autoscaling/vpa-admission-controller
+        tag: 0.11.0
+        pullPolicy: IfNotPresent
+      vpa_recommender:
+        registry: k8s.gcr.io
+        repository: autoscaling/vpa-recommender
+        tag: 0.11.0
+        pullPolicy: IfNotPresent
+      vpa_updater:
+        registry: k8s.gcr.io
+        repository: autoscaling/vpa-updater
+        tag: 0.11.0
+        pullPolicy: IfNotPresent
+
+    resources:
+      vpa_admission_controller:
+        requests:
+          cpu: 25m
+          memory: 250Mi
+        limits:
+          cpu: 200m
+          memory: 1500Mi
+      vpa_recommender:
+        requests:
+          cpu: 25m
+          memory: 250Mi
+        limits:
+          cpu: 300m
+          memory: 2000Mi
+      vpa_updater:
+        requests:
+          cpu: 25m
+          memory: 250Mi
+        limits:
+          cpu: 300m
+          memory: 2000Mi
