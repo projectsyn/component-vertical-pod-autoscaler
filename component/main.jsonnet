@@ -43,7 +43,7 @@ local vpa_resources() = [
       updatePolicy: {
         updateMode: std.get(vpa, 'mode', 'Off'),
       },
-    },
+    } + std.get(vpa, 'spec', {}),
   }
   for name in std.objectFields(params.autoscaler)
 ];

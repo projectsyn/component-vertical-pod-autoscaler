@@ -37,9 +37,11 @@ autoscaler:
   my-other-namespace/database: <3>
     kind: StatefulSet
     mode: Auto
+    spec: <4>
 ----
 <1> Creates a autoscaler resource in namespace `my-namespace` for `Deployment` `frontend`.
 <2> Creates a autoscaler resource in namespace `my-namespace` for `StatefulSet` `backend`.
 <3> Creates a autoscaler resource in namespace `my-other-namespace` for `StatefulSet` `database`, and will automatically adjust resources.
+<4> Add arbitrary https://cloud.google.com/kubernetes-engine/docs/concepts/verticalpodautoscaler[autoscaler specs].
 
 For more information about `mode`, see https://github.com/kubernetes/design-proposals-archive/blob/main/autoscaling/vertical-pod-autoscaler.md#update-policy[UpdateMode].
