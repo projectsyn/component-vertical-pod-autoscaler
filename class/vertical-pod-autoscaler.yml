@@ -2,7 +2,7 @@ parameters:
   kapitan:
     dependencies:
       - type: https
-        source: https://raw.githubusercontent.com/kubernetes/autoscaler/master/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
+        source: https://raw.githubusercontent.com/kubernetes/autoscaler/vertical-pod-autoscaler-${vertical_pod_autoscaler:images:vpa_recommender:tag}/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
         output_path: ${_base_directory}/dependencies/vertical-pod-autoscaler/vpa-v1-crd-gen.yaml
 
     compile:
