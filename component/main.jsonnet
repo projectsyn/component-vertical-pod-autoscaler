@@ -18,6 +18,36 @@ local namespace = kube.Namespace(params.namespace) {
   },
 };
 
+local namespacedName(name, namespace='') = {
+  local namespacedName = std.splitLimit(name, '/', 1),
+  local ns = if namespace != '' then namespace else params.namespace,
+  namespace: if std.length(namespacedName) > 1 then namespacedName[0] else ns,
+  name: if std.length(namespacedName) > 1 then namespacedName[1] else namespacedName[0],
+};
+
+local vpa_resources() = [
+  local vpa = std.get(params.autoscaler, name);
+  {
+    apiVersion: 'autoscaling.k8s.io/v1',
+    kind: 'VerticalPodAutoscaler',
+    metadata: {
+      name: namespacedName(name, '').name,
+      namespace: namespacedName(name, '').namespace,
+    },
+    spec: {
+      targetRef: {
+        apiVersion: 'apps/v1',
+        kind: std.get(vpa, 'kind', 'Deployment'),
+        name: namespacedName(name, '').name,
+      },
+      updatePolicy: {
+        updateMode: std.get(vpa, 'mode', 'Off'),
+      },
+    },
+  }
+  for name in std.objectFields(params.autoscaler)
+];
+
 local adm_controller = import 'adm_controller.jsonnet';
 local recommender = import 'recommender.jsonnet';
 local updater = import 'updater.jsonnet';
@@ -54,4 +84,6 @@ local rbac = import 'rbac.jsonnet';
   '54_crb_target_reader': rbac.crb_target_reader,
   '54_crb_evictioner': rbac.crb_evictioner,
   '54_crb_status_reader': rbac.crb_status_reader,
+
+  '60_vpa_resources': vpa_resources(),
 }

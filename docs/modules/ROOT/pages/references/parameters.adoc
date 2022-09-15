@@ -10,7 +10,6 @@ default:: `syn-vertical-pod-autoscaler`
 
 The namespace in which to deploy this component.
 
-
 == `images`
 
 [horizontal]
@@ -18,3 +17,29 @@ type:: dictionary
 default:: https://github.com/projectsyn/component-vertical-pod-autoscaler/blob/master/class/defaults.yml[See class/defaults.yml]
 
 A dictionary of images used by this component.
+
+== `autoscaler`
+
+[horizontal]
+type:: string
+default:: {}
+
+Create autoscaler resources.
+
+=== Example
+
+[source,yaml]
+----
+autoscaler:
+  my-namespace/frontend: {} <1>
+  my-namespace/backend: <2>
+    kind: StatefulSet
+  my-other-namespace/database: <3>
+    kind: StatefulSet
+    mode: Auto
+----
+<1> Creates a autoscaler resource in namespace `my-namespace` for `Deployment` `frontend`.
+<2> Creates a autoscaler resource in namespace `my-namespace` for `StatefulSet` `backend`.
+<3> Creates a autoscaler resource in namespace `my-other-namespace` for `StatefulSet` `database`, and will automatically adjust resources.
+
+For more information about `mode`, see https://github.com/kubernetes/design-proposals-archive/blob/main/autoscaling/vertical-pod-autoscaler.md#update-policy[UpdateMode].
