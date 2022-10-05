@@ -5,17 +5,17 @@ parameters:
 
     images:
       vpa_admission_controller:
-        registry: k8s.gcr.io
+        registry: registry.k8s.io
         repository: autoscaling/vpa-admission-controller
         tag: 0.12.0
         pullPolicy: IfNotPresent
       vpa_recommender:
-        registry: k8s.gcr.io
+        registry: registry.k8s.io
         repository: autoscaling/vpa-recommender
         tag: 0.12.0
         pullPolicy: IfNotPresent
       vpa_updater:
-        registry: k8s.gcr.io
+        registry: registry.k8s.io
         repository: autoscaling/vpa-updater
         tag: 0.12.0
         pullPolicy: IfNotPresent
