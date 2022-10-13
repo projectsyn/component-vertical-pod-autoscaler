@@ -1,5 +1,11 @@
 = vertical-pod-autoscaler
 
-vertical-pod-autoscaler is a Commodore component to manage vertical-pod-autoscaler.
+vertical-pod-autoscaler is a Commodore component to manage the https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler[vertical-pod-autoscaler].
+
+The component deploys cluster roles `syn:vertical-pod-autoscaler:view` and `syn:vertical-pod-autoscaler:edit` which are aggregated into the default `view`, `edit`, and `admin` cluster roles.
+These roles ensures that users can view `VerticalPodAutoscaler` resources in namespaces in which they have at least `view` permissions, and can edit those resources in namespaces in which they have at least `edit` permissions.
+
+The component additionally deploys a cluster role `syn:vertical-pod-autoscaler:cluster-reader`, which is aggregated to OpenShift's `cluster-reader` cluster role.
+This role allows users who have `cluster-reader` permissions to also view `VerticalPodAutoscalerCheckpoint` resources.
 
 See the xref:references/parameters.adoc[parameters] reference for further details.

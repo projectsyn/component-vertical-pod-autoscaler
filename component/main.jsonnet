@@ -62,6 +62,7 @@ local rbac = import 'rbac.jsonnet';
   [if params.allow_autoscaling then '40_updater']: updater.deployment,
 
   '50_cluster_roles': rbac.cluster_roles,
+  '50_aggregated_cluster_roles': rbac.aggregated_cluster_roles,
   '50_cluster_role_bindings': rbac.cluster_role_bindings,
 
   [if std.length(params.autoscaler) > 0 then '60_vpa_resources']: vpa_resources(),
