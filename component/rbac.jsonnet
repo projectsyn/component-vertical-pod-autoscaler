@@ -145,6 +145,64 @@ local cr_admission_controller = kube.ClusterRole('system:vpa-admission-controlle
 };
 
 //
+// Cluster Roles which get aggregated to the standard roles
+//
+local aggregated_view = kube.ClusterRole('syn:vertical-pod-autoscaler:view') {
+  metadata+: {
+    labels+: {
+      'rbac.authorization.k8s.io/aggregate-to-admin': 'true',
+      'rbac.authorization.k8s.io/aggregate-to-edit': 'true',
+      'rbac.authorization.k8s.io/aggregate-to-view': 'true',
+      'rbac.authorization.k8s.io/aggregate-to-cluster-reader': 'true',
+    },
+  },
+  rules: [
+    {
+      apiGroups: [ 'autoscaling.k8s.io' ],
+      resources: [ 'verticalpodautoscalers' ],
+      verbs: [ 'get', 'list', 'watch' ],
+    },
+  ],
+};
+
+local aggregated_edit = kube.ClusterRole('syn:vertical-pod-autoscaler:edit') {
+  metadata+: {
+    labels+: {
+      'rbac.authorization.k8s.io/aggregate-to-admin': 'true',
+      'rbac.authorization.k8s.io/aggregate-to-edit': 'true',
+    },
+  },
+  rules: [
+    {
+      apiGroups: [ 'autoscaling.k8s.io' ],
+      resources: [ 'verticalpodautoscalers' ],
+      verbs: [
+        'create',
+        'delete',
+        'deletecollection',
+        'patch',
+        'update',
+      ],
+    },
+  ],
+};
+
+local aggregated_cluster_reader = kube.ClusterRole('syn:vertical-pod-autoscaler:cluster-reader') {
+  metadata+: {
+    labels+: {
+      'rbac.authorization.k8s.io/aggregate-to-cluster-reader': 'true',
+    },
+  },
+  rules: [
+    {
+      apiGroups: [ 'autoscaling.k8s.io' ],
+      resources: [ 'verticalpodautoscalercheckpoints' ],
+      verbs: [ 'get', 'list', 'watch' ],
+    },
+  ],
+};
+
+//
 // Cluster Role Bindings
 //
 
@@ -288,6 +346,12 @@ local crb_admission_controller = kube.ClusterRoleBinding('system:vpa-admission-c
       cr_admission_controller,
     ]
   ),
+
+  aggregated_cluster_roles: [
+    aggregated_view,
+    aggregated_edit,
+    aggregated_cluster_reader,
+  ],
 
   cluster_role_bindings: [
     crb_metrics_reader,
