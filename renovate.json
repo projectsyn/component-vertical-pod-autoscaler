@@ -14,5 +14,11 @@
   "suppressNotifications": [ "artifactErrors" ],
   "labels": [
     "dependency"
+  ],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["^registry.k8s.io/autoscaling/vpa-"],
+      "groupName": "dependency vertical pod autoscaler"
+    }
   ]
 }
