@@ -17,7 +17,7 @@ parameters:
       vpa_updater:
         registry: registry.k8s.io
         repository: autoscaling/vpa-updater
-        tag: 0.12.0
+        tag: 0.13.0
         pullPolicy: IfNotPresent
 
     resources:
