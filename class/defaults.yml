@@ -45,4 +45,7 @@ parameters:
 
     allow_autoscaling: false
 
+    recommender_args: []
+    updater_args: []
+
     autoscaler: {}

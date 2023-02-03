@@ -16,6 +16,7 @@ local deployment = kube.Deployment(app_name) {
           [app_name]: kube.Container(app_name) {
             image: '%(registry)s/%(repository)s:%(tag)s' % params.images.vpa_updater,
             resources: params.resources.vpa_updater,
+            [if std.length(params.updater_args) > 0 then 'args']: params.updater_args,
             ports_:: {
               prometheus: { containerPort: 8943 },
             },

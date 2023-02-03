@@ -28,6 +28,26 @@ Wether to enable ability to actively update resources.
 
 Enabling will also deploy the admission-controller and updater, so the component is able to actively update resources with its recommendations.
 
+== `recommender_args`
+
+[horizontal]
+type:: Array
+default:: []
+
+Additional arguments for recommender.
+
+See https://github.com/kubernetes/autoscaler/blob/master/vertical-pod-autoscaler/FAQ.md#what-are-the-parameters-to-vpa-recommender[FAQ] for possible options.
+
+== `updater_args`
+
+[horizontal]
+type:: Array
+default:: []
+
+Additional arguments for recommender.
+
+See https://github.com/kubernetes/autoscaler/blob/master/vertical-pod-autoscaler/FAQ.md#what-are-the-parameters-to-vpa-updater[FAQ] for possible options.
+
 == `autoscaler`
 
 [horizontal]
