@@ -64,7 +64,7 @@ local cr_checkpoint_actor = kube.ClusterRole('system:vpa-checkpoint-actor') {
   ],
 };
 
-local cr_evictioner = kube.ClusterRole('system:evictioner') {
+local cr_evictioner = kube.ClusterRole('system:vpa-evictioner') {
   rules: [
     {
       apiGroups: [ 'apps', 'extensions' ],

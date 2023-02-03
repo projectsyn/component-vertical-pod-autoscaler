@@ -147,8 +147,8 @@ kind: ClusterRole
 metadata:
   annotations: {}
   labels:
-    name: system-evictioner
-  name: system:evictioner
+    name: system-vpa-evictioner
+  name: system:vpa-evictioner
 rules:
   - apiGroups:
       - apps
