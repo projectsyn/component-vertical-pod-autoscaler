@@ -16,6 +16,7 @@ local deployment = kube.Deployment(app_name) {
           [app_name]: kube.Container(app_name) {
             image: '%(registry)s/%(repository)s:%(tag)s' % params.images.vpa_recommender,
             resources: params.resources.vpa_recommender,
+            [if std.length(params.recommender_args) > 0 then 'args']: params.recommender_args,
             ports_:: {
               prometheus: { containerPort: 8942 },
             },
