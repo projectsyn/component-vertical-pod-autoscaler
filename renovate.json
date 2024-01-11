@@ -18,6 +18,7 @@
   "labels": [
     "dependency"
   ],
+  "separateMinorPatch": true,
   "packageRules": [
     {
       "matchPackagePatterns": ["^registry.k8s.io/autoscaling/vpa-"],
