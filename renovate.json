@@ -21,6 +21,16 @@
   "separateMinorPatch": true,
   "packageRules": [
     {
+      "matchUpdateTypes": ["patch"],
+      "matchCurrentVersion": "!/^v?0\\./",
+      "automerge": true,
+      "platformAutomerge": false,
+      "labels": [
+        "dependency",
+        "automerge"
+      ]
+    },
+    {
       "matchPackagePatterns": ["^registry.k8s.io/autoscaling/vpa-"],
       "groupName": "dependency vertical pod autoscaler"
     }
