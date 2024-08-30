@@ -23,5 +23,4 @@ ignore: |
   vendor/
   compiled/
   .cache/
-  tests/golden/defaults/vertical-pod-autoscaler/vertical-pod-autoscaler/10_crds/*
-  tests/golden/full/vertical-pod-autoscaler/vertical-pod-autoscaler/10_crds/*
+  tests/golden/*/vertical-pod-autoscaler/vertical-pod-autoscaler/10_kustomize/*

@@ -25,6 +25,37 @@ local namespacedName(name, namespace='') = {
   name: if std.length(namespacedName) > 1 then namespacedName[1] else namespacedName[0],
 };
 
+local cert_manager_issuer = {
+  apiVersion: 'cert-manager.io/v1',
+  kind: 'Issuer',
+  metadata: {
+    name: 'vpa-admission-controller',
+    namespace: params.namespace,
+  },
+  spec: {
+    selfSigned: {},
+  },
+};
+
+local cert_manager_cert = {
+  apiVersion: 'cert-manager.io/v1',
+  kind: 'Certificate',
+  metadata: {
+    name: 'vpa-admission-controller',
+  },
+  spec: {
+    secretName: 'vpa-tls-certs',
+    dnsNames: [
+      '%(service)s.%(namespace)s.svc' % { service: 'vpa-webhook', namespace: params.namespace },
+    ],
+    issuerRef: {
+      name: 'vpa-admission-controller',
+      kind: 'Issuer',
+      group: 'cert-manager.io',
+    },
+  },
+};
+
 local vpa_resources() = [
   local vpa = std.get(params.autoscaler, name);
   {
@@ -48,22 +79,10 @@ local vpa_resources() = [
   for name in std.objectFields(params.autoscaler)
 ];
 
-local adm_controller = import 'adm_controller.jsonnet';
-local recommender = import 'recommender.jsonnet';
-local updater = import 'updater.jsonnet';
-local rbac = import 'rbac.jsonnet';
-
 // Define outputs below
 {
   '00_namespace': namespace,
 
-  '20_recommender': recommender.deployment,
-  [if params.allow_autoscaling then '30_adm_controller']: adm_controller.deployment,
-  [if params.allow_autoscaling then '40_updater']: updater.deployment,
-
-  '50_cluster_roles': rbac.cluster_roles,
-  '50_aggregated_cluster_roles': rbac.aggregated_cluster_roles,
-  '50_cluster_role_bindings': rbac.cluster_role_bindings,
-
+  [if params.allow_autoscaling then '50_vpa_certs']: [ cert_manager_issuer, cert_manager_cert ],
   [if std.length(params.autoscaler) > 0 then '60_vpa_resources']: vpa_resources(),
 }
