@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpa-recommender
+  namespace: syn-vertical-pod-autoscaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vpa-recommender
+  template:
+    metadata:
+      labels:
+        app: vpa-recommender
+    spec:
+      containers:
+      - args:
+        - --recommender-name=frugal
+        - --target-cpu-percentile=0.50
+        image: registry.k8s.io/autoscaling/vpa-recommender:1.2.1
+        imagePullPolicy: Always
+        name: recommender
+        ports:
+        - containerPort: 8942
+          name: prometheus
+        resources:
+          limits:
+            cpu: 200m
+            memory: 1000Mi
+          requests:
+            cpu: 50m
+            memory: 500Mi
+      securityContext:
+        runAsNonRoot: true
+      serviceAccountName: vpa-recommender

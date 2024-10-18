@@ -3,6 +3,11 @@
 parameters:
   vertical_pod_autoscaler:
     allow_autoscaling: true
+    recommender_args:
+      - --recommender-name=frugal
+      - --target-cpu-percentile=0.50
+    updater_args:
+      - --updater-name=frugal
     autoscaler:
       my-namespace/frontend: {}
       my-namespace/backend:

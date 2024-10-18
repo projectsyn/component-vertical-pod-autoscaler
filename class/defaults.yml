@@ -3,6 +3,10 @@ parameters:
     =_metadata: {}
     namespace: syn-vertical-pod-autoscaler
 
+    manifestVersion: vertical-pod-autoscaler-1.2.1
+    kustomizeInput:
+      namespace: ${vertical_pod_autoscaler:namespace}
+
     images:
       vpa_admission_controller:
         registry: registry.k8s.io
