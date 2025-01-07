@@ -1,6 +1,7 @@
 parameters:
   vertical_pod_autoscaler:
-    =_metadata: {}
+    =_metadata:
+      multi_tenant: true
     namespace: syn-vertical-pod-autoscaler
 
     manifestVersion: vertical-pod-autoscaler-1.2.1
