@@ -79,9 +79,65 @@ local vpa_resources() = [
   for name in std.objectFields(params.autoscaler)
 ];
 
+local vpa_aggregated_roles = [
+  kube.ClusterRole('syn:vertical-pod-autoscaler:view') {
+    metadata+: {
+      labels+: {
+        'rbac.authorization.k8s.io/aggregate-to-admin': 'true',
+        'rbac.authorization.k8s.io/aggregate-to-edit': 'true',
+        'rbac.authorization.k8s.io/aggregate-to-view': 'true',
+        'rbac.authorization.k8s.io/aggregate-to-cluster-reader': 'true',
+      },
+    },
+    rules: [
+      {
+        apiGroups: [ 'autoscaling.k8s.io' ],
+        resources: [ 'verticalpodautoscalers' ],
+        verbs: [ 'get', 'list', 'watch' ],
+      },
+    ],
+  },
+  kube.ClusterRole('syn:vertical-pod-autoscaler:edit') {
+    metadata+: {
+      labels+: {
+        'rbac.authorization.k8s.io/aggregate-to-admin': 'true',
+        'rbac.authorization.k8s.io/aggregate-to-edit': 'true',
+      },
+    },
+    rules: [
+      {
+        apiGroups: [ 'autoscaling.k8s.io' ],
+        resources: [ 'verticalpodautoscalers' ],
+        verbs: [
+          'create',
+          'delete',
+          'deletecollection',
+          'patch',
+          'update',
+        ],
+      },
+    ],
+  },
+  kube.ClusterRole('syn:vertical-pod-autoscaler:cluster-reader') {
+    metadata+: {
+      labels+: {
+        'rbac.authorization.k8s.io/aggregate-to-cluster-reader': 'true',
+      },
+    },
+    rules: [
+      {
+        apiGroups: [ 'autoscaling.k8s.io' ],
+        resources: [ 'verticalpodautoscalercheckpoints' ],
+        verbs: [ 'get', 'list', 'watch' ],
+      },
+    ],
+  },
+];
+
 // Define outputs below
 {
   '00_namespace': namespace,
+  '20_aggregated_rbac': vpa_aggregated_roles,
 
   [if params.allow_autoscaling then '50_vpa_certs']: [ cert_manager_issuer, cert_manager_cert ],
   [if std.length(params.autoscaler) > 0 then '60_vpa_resources']: vpa_resources(),
