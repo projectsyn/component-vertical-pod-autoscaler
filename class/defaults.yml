@@ -12,17 +12,17 @@ parameters:
       vpa_admission_controller:
         registry: registry.k8s.io
         repository: autoscaling/vpa-admission-controller
-        tag: 1.2.1
+        tag: 1.2.2
         pullPolicy: IfNotPresent
       vpa_recommender:
         registry: registry.k8s.io
         repository: autoscaling/vpa-recommender
-        tag: 1.2.1
+        tag: 1.2.2
         pullPolicy: IfNotPresent
       vpa_updater:
         registry: registry.k8s.io
         repository: autoscaling/vpa-updater
-        tag: 1.2.1
+        tag: 1.2.2
         pullPolicy: IfNotPresent
 
     resources:
