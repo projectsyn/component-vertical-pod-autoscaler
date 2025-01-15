@@ -14,7 +14,7 @@ spec:
         app: vpa-recommender
     spec:
       containers:
-      - image: registry.k8s.io/autoscaling/vpa-recommender:1.2.1
+      - image: registry.k8s.io/autoscaling/vpa-recommender:1.2.2
         imagePullPolicy: Always
         name: recommender
         ports:
