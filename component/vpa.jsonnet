@@ -5,6 +5,7 @@ local kube = import 'lib/kube.libjsonnet';
 local inv = kap.inventory();
 // The hiera parameters for the component
 local params = inv.parameters.vertical_pod_autoscaler;
+local isOpenshift = std.member([ 'openshift4', 'oke' ], inv.parameters.facts.distribution);
 
 local vpa = com.Kustomization(
   'https://github.com/kubernetes/autoscaler//vertical-pod-autoscaler/deploy',
@@ -24,7 +25,8 @@ local vpa = com.Kustomization(
     },
   },
   {
-    patches: [
+    patches: (
+	if isOpenshift then [
       {
         patch: |||
           - op: remove
@@ -34,7 +36,8 @@ local vpa = com.Kustomization(
           kind: 'Deployment',
         },
       },
-    ] + (
+      ] else []
+      ) + (
       if std.length(params.recommender_args) == 0 then [] else [
         {
           patch: |||
