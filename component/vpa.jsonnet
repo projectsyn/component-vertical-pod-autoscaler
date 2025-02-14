@@ -26,18 +26,18 @@ local vpa = com.Kustomization(
   },
   {
     patches: (
-	if isOpenshift then [
-      {
-        patch: |||
-          - op: remove
-            path: "/spec/template/spec/securityContext/runAsUser"
-        |||,
-        target: {
-          kind: 'Deployment',
+      if isOpenshift then [
+        {
+          patch: |||
+            - op: remove
+              path: "/spec/template/spec/securityContext/runAsUser"
+          |||,
+          target: {
+            kind: 'Deployment',
+          },
         },
-      },
       ] else []
-      ) + (
+    ) + (
       if std.length(params.recommender_args) == 0 then [] else [
         {
           patch: |||
