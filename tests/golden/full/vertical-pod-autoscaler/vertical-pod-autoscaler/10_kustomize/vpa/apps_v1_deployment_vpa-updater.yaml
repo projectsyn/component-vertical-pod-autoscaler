@@ -36,4 +36,5 @@ spec:
             memory: 500Mi
       securityContext:
         runAsNonRoot: true
+        runAsUser: 65534
       serviceAccountName: vpa-updater
