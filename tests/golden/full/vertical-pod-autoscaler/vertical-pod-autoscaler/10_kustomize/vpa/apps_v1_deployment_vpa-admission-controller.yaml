@@ -46,6 +46,7 @@ spec:
           readOnly: true
       securityContext:
         runAsNonRoot: true
+        runAsUser: 65534
       serviceAccountName: vpa-admission-controller
       volumes:
       - name: tls-certs
