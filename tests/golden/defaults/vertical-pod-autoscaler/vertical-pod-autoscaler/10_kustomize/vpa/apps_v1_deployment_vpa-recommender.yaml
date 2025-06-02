@@ -14,8 +14,8 @@ spec:
         app: vpa-recommender
     spec:
       containers:
-      - image: registry.k8s.io/autoscaling/vpa-recommender:1.2.2
-        imagePullPolicy: Always
+      - image: registry.k8s.io/autoscaling/vpa-recommender:1.4.1
+        imagePullPolicy: IfNotPresent
         name: recommender
         ports:
         - containerPort: 8942
