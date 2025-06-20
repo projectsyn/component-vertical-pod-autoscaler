@@ -4,7 +4,7 @@ parameters:
       multi_tenant: true
     namespace: syn-vertical-pod-autoscaler
 
-    manifestVersion: vertical-pod-autoscaler-1.2.1
+    manifestVersion: vertical-pod-autoscaler-${vertical_pod_autoscaler:images:vpa_recommender:tag}
     kustomizeInput:
       namespace: ${vertical_pod_autoscaler:namespace}
 
@@ -12,17 +12,17 @@ parameters:
       vpa_admission_controller:
         registry: registry.k8s.io
         repository: autoscaling/vpa-admission-controller
-        tag: 1.2.2
+        tag: 1.4.1
         pullPolicy: IfNotPresent
       vpa_recommender:
         registry: registry.k8s.io
         repository: autoscaling/vpa-recommender
-        tag: 1.2.2
+        tag: 1.4.1
         pullPolicy: IfNotPresent
       vpa_updater:
         registry: registry.k8s.io
         repository: autoscaling/vpa-updater
-        tag: 1.2.2
+        tag: 1.4.1
         pullPolicy: IfNotPresent
 
     resources:
