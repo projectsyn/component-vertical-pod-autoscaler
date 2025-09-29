@@ -21,12 +21,27 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: registry.k8s.io/autoscaling/vpa-updater:1.4.2
+        image: registry.k8s.io/autoscaling/vpa-updater:1.5.0
         imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health-check
+            port: prometheus
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
         name: updater
         ports:
         - containerPort: 8943
           name: prometheus
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health-check
+            port: prometheus
+            scheme: HTTP
+          periodSeconds: 10
         resources:
           limits:
             cpu: 200m
