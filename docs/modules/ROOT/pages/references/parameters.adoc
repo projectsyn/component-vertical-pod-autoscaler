@@ -36,7 +36,7 @@ default:: []
 
 Additional arguments for recommender.
 
-See https://github.com/kubernetes/autoscaler/blob/30aea661ffc8e9aabf3af7eceded34f4be820f79/vertical-pod-autoscaler/docs/flags.md#what-are-the-parameters-to-vpa-recommender[FAQ] for possible options.
+See https://github.com/kubernetes/autoscaler/blob/master/vertical-pod-autoscaler/docs/flags.md[Flags Documentation] for possible options.
 
 == `updater_args`
 
