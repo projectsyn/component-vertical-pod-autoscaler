@@ -17,7 +17,7 @@ spec:
       - args:
         - --recommender-name=frugal
         - --target-cpu-percentile=0.50
-        image: registry.k8s.io/autoscaling/vpa-recommender:1.5.1
+        image: registry.k8s.io/autoscaling/vpa-recommender:1.6.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
