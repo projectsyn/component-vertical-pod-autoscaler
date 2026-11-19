@@ -7,6 +7,25 @@ local inv = kap.inventory();
 local params = inv.parameters.vertical_pod_autoscaler;
 local isOpenshift = std.member([ 'openshift4', 'oke' ], inv.parameters.facts.distribution);
 
+local deploymentPatch(key) = {
+  patch: std.manifestJsonMinified([
+    {
+      op: 'add',
+      path: '/spec/template/spec/containers/0/resources',
+      value: params.resources[key],
+    },
+    {
+      op: 'add',
+      path: '/spec/template/spec/containers/0/imagePullPolicy',
+      value: params.images[key].pullPolicy,
+    },
+  ]),
+  target: {
+    kind: 'Deployment',
+    name: std.strReplace(key, '_', '-'),
+  },
+};
+
 local vpa = com.Kustomization(
   'https://github.com/kubernetes/autoscaler//vertical-pod-autoscaler/deploy',
   params.manifestVersion,
@@ -36,6 +55,14 @@ local vpa = com.Kustomization(
             kind: 'Deployment',
           },
         },
+      ] else []
+    ) + [
+      deploymentPatch('vpa_recommender'),
+    ] + (
+      // The other deployments exist only if autoscaling is allowed.
+      if params.allow_autoscaling then [
+        deploymentPatch('vpa_admission_controller'),
+        deploymentPatch('vpa_updater'),
       ] else []
     ) + (
       if std.length(params.recommender_args) == 0 then [] else [
@@ -192,6 +219,22 @@ local vpa = com.Kustomization(
       kind: 'ClusterRoleBinding',
       metadata: {
         name: 'system:vpa-evictioner-binding',
+      },
+    },
+    {
+      '$patch': 'delete',
+      apiVersion: 'rbac.authorization.k8s.io/v1',
+      kind: 'ClusterRole',
+      metadata: {
+        name: 'system:vpa-updater-in-place',
+      },
+    },
+    {
+      '$patch': 'delete',
+      apiVersion: 'rbac.authorization.k8s.io/v1',
+      kind: 'ClusterRoleBinding',
+      metadata: {
+        name: 'system:vpa-updater-in-place-binding',
       },
     },
     {

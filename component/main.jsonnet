@@ -42,6 +42,7 @@ local cert_manager_cert = {
   kind: 'Certificate',
   metadata: {
     name: 'vpa-admission-controller',
+    namespace: params.namespace,
   },
   spec: {
     secretName: 'vpa-tls-certs',

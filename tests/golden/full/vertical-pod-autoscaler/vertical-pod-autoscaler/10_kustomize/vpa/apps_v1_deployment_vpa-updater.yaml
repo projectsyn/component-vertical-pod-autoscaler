@@ -44,11 +44,11 @@ spec:
           periodSeconds: 10
         resources:
           limits:
-            cpu: 200m
-            memory: 1000Mi
+            cpu: 300m
+            memory: 2000Mi
           requests:
-            cpu: 50m
-            memory: 500Mi
+            cpu: 25m
+            memory: 250Mi
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534

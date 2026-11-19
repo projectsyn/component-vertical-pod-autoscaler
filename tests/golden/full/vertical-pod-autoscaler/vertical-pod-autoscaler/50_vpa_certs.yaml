@@ -10,6 +10,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: vpa-admission-controller
+  namespace: syn-vertical-pod-autoscaler
 spec:
   dnsNames:
     - vpa-webhook.syn-vertical-pod-autoscaler.svc
