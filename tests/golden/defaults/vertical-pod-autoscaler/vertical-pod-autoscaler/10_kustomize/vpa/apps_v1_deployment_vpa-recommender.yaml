@@ -12,9 +12,11 @@ spec:
     metadata:
       labels:
         app: vpa-recommender
+        app.kubernetes.io/component: recommender
+        app.kubernetes.io/name: vertical-pod-autoscaler
     spec:
       containers:
-      - image: registry.k8s.io/autoscaling/vpa-recommender:1.6.0
+      - image: registry.k8s.io/autoscaling/vpa-recommender:1.8.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
@@ -37,11 +39,11 @@ spec:
           periodSeconds: 10
         resources:
           limits:
-            cpu: 200m
-            memory: 1000Mi
+            cpu: 300m
+            memory: 2000Mi
           requests:
-            cpu: 50m
-            memory: 500Mi
+            cpu: 25m
+            memory: 250Mi
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
